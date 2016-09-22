@@ -1,0 +1,77 @@
+/*
+  SOS (Save Our Sketch)
+ 
+  An Arduino sketch modified from the example Blink program.
+ 
+  The program upload directs the Arduino to write a signal to an LED,
+  printing S - O - S in Morse code timing.
+ 
+  Derived from Blink (10.2014) by Scott Fitzgerald;
+  modified for laboratory use 9/21/2016.
+ 
+  * rafael queypo
+  * stno 200365586
+ */
+ 
+int led1 = 9;
+int uMorseTime = 150; // base unit.
+ 
+int timeDah = uMorseTime * 3;
+int timeEnd = uMorseTime * 7;
+ 
+ 
+void setup() {
+  // For the purpose of the
+  pinMode(led1, OUTPUT);
+}
+ 
+void loop() {
+ 
+  // A note: only end-of-letter delays and "dahs"
+  // use delays longer than the base unit.
+ 
+  // S
+  for (int i = 0; i < 3; i++)
+  {
+    digitalWrite(led1, HIGH);  
+    delay(uMorseTime);
+     
+    digitalWrite(led1, LOW);  
+ 
+    if (i == 2)               // Is this the last iteration?
+      delay(3 * uMorseTime);  // If so delay longer then quit loop to signify letter break.
+    else        
+      delay(uMorseTime);      // Else 1 * uTime
+  }
+ 
+  // O
+  for (int i = 0; i < 3; i++)
+  {
+    digitalWrite(led1, HIGH);  
+    delay(timeDah);    // "dah" rather than "dit".
+     
+    digitalWrite(led1, LOW);  
+ 
+    if (i == 2)
+      delay(3 * uMorseTime);    
+    else
+      delay(uMorseTime);      // Only instance of 1 * uTime in O
+  }
+ 
+  // S again.
+  // Still inefficient to Cmd + V paste this.
+  // If this were a serious project we should have had a header with all the Morse symbols :^)
+  for (int i = 0; i < 3; i++)
+  {
+    digitalWrite(led1, HIGH);  
+    delay(uMorseTime);
+     
+    digitalWrite(led1, LOW);  
+ 
+    if (i == 2)
+      delay(timeEnd);    // Delay before the loop signal reiterates completely.
+    else
+      delay(uMorseTime);
+  }
+             
+}
